@@ -1,0 +1,255 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Credit Evaluation</title>
+    <link rel="stylesheet" href="optus.css"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <script
+            src="https://code.jquery.com/jquery-3.4.0.min.js"
+            integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+            crossorigin="anonymous"></script>
+    <script src="sv.js"></script>
+    <script type="text/javascript" src="svg.js/jquery.svg.js"></script>
+
+    <!-- script src="https://code.jquery.com/jquery-1.12.4.js"></script -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+      $( function() {
+        $( "#tabs" ).tabs();
+        $("#tabs").tabs("option", "active", 1);
+      } );
+  </script>
+</head>
+
+<body>
+<div>
+    <p><h1>Credit Evaluation</h1></p>
+
+   
+    <div id="tabs">
+        <ul>
+            <li><a href="#tabs-1">Setup</a></li>
+            <li><a href="#tabs-2">Step 1 - Start Process</a></li>
+            <li><a href="#tabs-3">Step 2</a></li>
+           <!--  <li><a href="#tabs-4">Step 3</a></li>
+            <li><a href="#tabs-5">Step 4</a></li>
+            <li><a href="#tabs-6">Step 5</a></li>
+            <li><a href="#tabs-7">Step 6</a></li>
+            <li><a href="#tabs-8">Step 7</a></li>
+            <li><a href="#tabs-9">Completed</a></li>  -->
+        </ul>
+        <div id="tabs-1">
+             <p>Adjust values as required.</p>
+ 
+            <div><label>Container Id {containerId} will be replaced in urls: </label>
+                <input id="containerid" type="text" value="pam-poc_1.0.2-SNAPSHOT" size="50"/></div>
+
+            <div><label>User name KIE Rest API :</label>
+                <input id="username1" type="text" value="rhpamAdmin" size="50"/></div>
+            <div><label>Password:</label>
+                <input id="password1" type="text" value="r3dh4t1!" size="50"/></div>
+             <div><label>Server protocol, host and port</label>
+             	<input id="protocolhostport" type="text" value="http://localhost:8080" size="50"/>
+             </div>
+            <div><label>User name to initiate process:</label>
+                <input id="username" type="text" value="rhpamAdmin" size="50"/></div>
+            <div><label>Password:</label>
+                <input id="password" type="text" value="r3dh4t1!" size="50"/></div>
+            <br/>
+            <div><label>Working Variables</label></div>
+             <div><label>Process Instance Id:</label>
+        		<input id="processInstanceId" type="text" value="" />
+        	</div>
+        	<div>
+		    <label>Current Task Id:</label>
+		        <input id="currentTaskId" type="text" value="" />   
+    		</div>
+        </div>
+        <div id="tabs-2">
+            <div>
+                <button id="step1_button">Start Process</button>
+            </div>
+            <br/>
+            <div style="display:none"><label>URL:</label>
+                <input id="step1_url" type="text" size="130"
+                       value="{protocolhostport}/kie-server/services/rest/server/containers/{containerId}/processes/pam-poc.CreditEvaluation/instances"/>
+            </div>
+            <div  style="display:none">
+                <label>NewOrder - json format</label>
+                <textarea id="step1_json" rows="10" cols="130">{}</textarea>
+            </div>
+
+
+        </div>
+        <div id="tabs-3">
+            <p>Process has been started - check the Progress</p>
+            <br/>
+            <div>
+                <button id="step2_button">Diagrams</button>
+            </div>
+            <br/>
+                <div style="display:none"><label>URL:</label>
+                    <input id="step2_url" type="text" size="130"
+                           value="{protocolhostport}/kie-server/services/rest/server/containers/{containerId}/images/processes/instances/{processInstanceId}?svgCompletedColor=%23C0C0C0&svgCompletedBorderColor=%23030303&svgActiveBorderColor=%23FF0000" />
+                 <input id="step2a_url" type="text" size="130"
+                           value="{protocolhostport}/kie-server/services/rest/server/containers/{containerId}/processes/instances/{processInstanceId}/processes" />
+                
+                <input id="step2b_url" type="text" size="130"
+                           value="{protocolhostport}/kie-server/services/rest/server/queries/processes/instances/{processInstanceId}?withVars=true" />
+                
+
+                </div>
+                <div id="svgimgs">  
+                </div>
+               
+        </div>
+        <!--
+        curl -X GET "http://localhost:8080/kie-server/services/rest/server/queries/processes/instances/7?withVars=true" -H "accept: application/json"
+        
+        curl -X GET "http://localhost:8080/kie-server/services/rest/server/containers/pam-poc_1.0.2-SNAPSHOT/processes/instances/7?withVars=true" -H "accept: application/json"
+        
+        curl -X POST "http://localhost:8080/kie-server/services/rest/server/containers/pam-poc_1.0.2-SNAPSHOT/processes/instances/6/variables" -H "accept: application/json" -H "content-type: application/json" -d "{ \"Abort\": true}"
+        
+        <div id="tabs-4">
+            <p>We now need to claim, start and complete the New Order Task with the buttons below, the salesmand user will be used.</p>
+            <p>If the applicant is not a Hoa Member, a further HoaApproval task will be needed</p>
+            <div>
+                <button id="step3a_button">Claim task</button>
+            </div>
+            <br/>
+            <div>
+
+                <div><label>URL:</label>
+                    <input id="step3a_url" type="text" size="130"
+                           value="{protocolhostport}/kie-server/services/rest/server/containers/{containerId}/tasks/{taskid}/states/claimed" />
+
+                </div>
+            </div>
+            <br/>
+            <div>
+                <button id="step3b_button">Start task</button>
+            </div>
+            <br/>
+            <div>
+                <div><label>URL:</label>
+                    <input id="step3b_url" type="text" size="130"
+                           value="http://localhost:8080/kie-server/services/rest/server/containers/{containerId}/tasks/{taskid}/states/started" />
+                </div>
+            </div>
+            <br/>
+            <div>
+                <button id="step3c_button">Complete task</button>
+                <div><label>URL:</label>
+                    <input id="step3c_url" type="text" size="130"
+                           value="http://localhost:8080/kie-server/services/rest/server/containers/{containerId}/tasks/{taskid}/states/completed" />
+                </div>
+            </div>
+        </div>
+        <div id="tabs-5">
+            <p>This step identifies the available Hoa Approval tasks to claim for the Sales Group checking the current process id</p>
+            <p>Proceed to Step 5 once you have populated or overridden the Current Task Id above</p>
+            <p>Help: If Process Instance Id is empty, run this once and identify a valid task-proc-inst-id and populate above</p>
+            <br/>
+            <div>
+                <button id="step4_button">List available Tasks</button>
+            </div>
+            <br/>
+            <div><label>URL:</label>
+                <input id="step4_url" type="text" size="130"
+                       value="http://localhost:8080/kie-server/services/rest/server/queries/tasks/instances/pot-owners?groups=sales" />
+            </div>
+            <div>
+                Result in JSON
+            </div>
+            <div>
+                <textarea id="step4_json" rows="15" cols="130"></textarea>
+            </div>
+        </div>
+
+        <div id="tabs-6">
+            <p>We now need to claim, start and complete the Hoa Approval Task with the buttons below, the salesmand user will be used.</p>
+            <div>
+                <button id="step6a_button">Claim task</button>
+            </div>
+            <br/>
+            <div>
+
+                <div><label>URL:</label>
+                    <input id="step6a_url" type="text" size="130"
+                           value="http://localhost:8080/kie-server/services/rest/server/containers/{containerId}/tasks/{taskid}/states/claimed" />
+
+                </div>
+            </div>
+            <br/>
+            <div>
+                <button id="step6b_button">Start task</button>
+            </div>
+            <br/>
+            <div>
+                <div><label>URL:</label>
+                    <input id="step6b_url" type="text" size="130"
+                           value="http://localhost:8080/kie-server/services/rest/server/containers/{containerId}/tasks/{taskid}/states/started" />
+                </div>
+            </div>
+            <br/>
+
+        </div>
+        <div id="tabs-7">
+            <p>We are now setting the Hoa Approval to Approved to Denied, please update JSON as required</p>
+            <p>View variables to confirm update</p>
+            <div><button id="step7a_button">View Current Variables</button><button id="step7b_button">Update Approval</button></div>
+            <br/>
+            <div><label>URL:</label>
+                <input id="step7_url" type="text" size="130"
+                       value="http://localhost:8080/kie-server/services/rest/server/containers/{containerId}/processes/instances/{processInstanceId}/variables" />
+            </div>
+            <br/>
+            <div><label>HoaApproval - json format</label></p>
+                <textarea id="step7b_json" rows="5" cols="130">
+   {
+        "HoaApproval" :{
+              "com.redhat.bfarr.solarvillage.datamodel.HoaApproval": {
+                  "status": "Approved",
+                 "notes" : "Meeting approved the motion for the solar new order",
+                "salesAgentName" : "Barry Jones",
+                  "hoaName": "Smiths"
+              }
+          }
+      }
+    </textarea>
+            </div>
+            <br/>
+            <div>
+                Current Process Variables
+            </div>
+            <div>
+                <textarea id="step7a_json" rows="15" cols="130"></textarea>
+            </div>
+        </div>
+        <div id="tabs-8">
+            <p>This step triggers the completion of the Hoa Approval update done in the previous step.</p>
+            <p>The whole process should complete autonomously from this point</p>
+
+            <div>
+                <button id="step8_button">Complete task</button>
+                <div><label>URL:</label>
+                    <input id="step8_url" type="text" size="130"
+                           value="http://localhost:8080/kie-server/services/rest/server/containers/{containerId}/tasks/{taskid}/states/completed" />
+                </div>
+            </div>
+        </div>
+        <div id="tabs-9">
+            <p>Completed Task</p>
+            <p>Log into business central to review the process instance</p>
+        </div>
+        
+          -->
+    </div>
+
+
+</div>
+</body>
+</html>

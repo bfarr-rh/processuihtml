@@ -1,0 +1,13 @@
+body {
+    background-color: rgb(0, 131, 138);
+
+}
+
+h1 {
+	    color: rgb(253,204,8);
+}
+
+label {
+    display: inline-block;
+    width: 350px;
+}
